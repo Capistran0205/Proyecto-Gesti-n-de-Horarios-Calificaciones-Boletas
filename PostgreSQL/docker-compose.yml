@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16.6
+    container_name: portal_pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: portal_dev
+      POSTGRES_DB: portal_escolar
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+
+volumes:
+  pgdata:

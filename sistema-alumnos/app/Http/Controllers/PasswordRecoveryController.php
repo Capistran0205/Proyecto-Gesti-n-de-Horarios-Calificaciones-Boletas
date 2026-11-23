@@ -35,7 +35,7 @@ class PasswordRecoveryController extends Controller
         }
         RateLimiter::hit($llave, 3600);
 
-        // RN-69 (usuario o correo) y RN-72 (las bajas no recuperan)
+        // RN usuario o correo y las bajas no recuperan
         $usuario = User::where('estado', 1)
             ->where(fn ($consulta) => $consulta
                 ->where('usuario', $identificador)
@@ -50,7 +50,7 @@ class PasswordRecoveryController extends Controller
             }
         }
 
-        // RN-70: misma respuesta exista o no la cuenta
+        // RN: misma respuesta exista o no la cuenta
         return view('auth.estado', [
             'titulo' => 'Revisa tu correo',
             'tipo' => 'exito',

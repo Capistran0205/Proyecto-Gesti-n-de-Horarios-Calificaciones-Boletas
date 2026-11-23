@@ -1,4 +1,4 @@
-// Plantilla para interfaz construida en blade con php
+<!-- Plantilla para interfaz construida en blade con php -->
 @extends('layouts.auth')
 
 @section('titulo', 'Iniciar sesión')

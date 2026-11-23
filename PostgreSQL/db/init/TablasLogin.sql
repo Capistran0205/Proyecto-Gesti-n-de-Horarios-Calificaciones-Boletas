@@ -41,7 +41,6 @@ CREATE TABLE docente (
     id_docente     INTEGER     NOT NULL,
     curp           CHAR(18)    NOT NULL,
     rfc            VARCHAR(13) NOT NULL,
-    modalidad      SMALLINT    NOT NULL,
     disponibilidad JSONB       NOT NULL DEFAULT '{}'::JSONB,
     CONSTRAINT pk_docente                PRIMARY KEY (id_docente),
     CONSTRAINT fk_docente_usuario        FOREIGN KEY (id_docente) REFERENCES usuario (id),
@@ -49,7 +48,6 @@ CREATE TABLE docente (
     CONSTRAINT uq_docente_rfc            UNIQUE (rfc),
     CONSTRAINT ck_docente_curp           CHECK (curp ~ '^[A-Z]{4}[0-9]{6}[HMX][A-Z]{5}[A-Z0-9][0-9]$'),
     CONSTRAINT ck_docente_rfc            CHECK (rfc  ~ '^[A-ZÑ&]{4}[0-9]{6}[A-Z0-9]{3}$'),
-    CONSTRAINT ck_docente_modalidad      CHECK (modalidad IN (1, 2)),
     CONSTRAINT ck_docente_disponibilidad CHECK (jsonb_typeof(disponibilidad) = 'object')
 );
 
@@ -58,7 +56,6 @@ CREATE TABLE alumno (
     id_alumno INTEGER     NOT NULL,
     curp      CHAR(18)    NOT NULL,
     nss       VARCHAR(11),                -- opcional; hacerlo NOT NULL si el PO lo exige
-    modalidad SMALLINT    NOT NULL,
     semestre  SMALLINT    NOT NULL,
     id_area   INTEGER,                    -- NULL hasta que elija especialidad (5.º semestre)
     CONSTRAINT pk_alumno           PRIMARY KEY (id_alumno),
@@ -67,6 +64,5 @@ CREATE TABLE alumno (
     CONSTRAINT uq_alumno_nss       UNIQUE (nss),
     CONSTRAINT ck_alumno_curp      CHECK (curp ~ '^[A-Z]{4}[0-9]{6}[HMX][A-Z]{5}[A-Z0-9][0-9]$'),
     CONSTRAINT ck_alumno_nss       CHECK (nss ~ '^[0-9]{11}$'),
-    CONSTRAINT ck_alumno_modalidad CHECK (modalidad IN (1, 2)),
     CONSTRAINT ck_alumno_semestre  CHECK (semestre BETWEEN 1 AND 6)
 );

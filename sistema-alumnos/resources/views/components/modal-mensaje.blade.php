@@ -28,7 +28,7 @@
         @endif
 
         @if ($contrasena)
-            <p class="nota-pequena">Contraseña temporal. Entrégasela al administrador: no se volverá a mostrar.</p>
+            <p class="nota-pequena">Contraseña temporal. Entrégasela directamente a la persona registrada: no se volverá a mostrar.</p>
             <div class="contrasena-entregada">
                 <code>{{ $contrasena }}</code>
                 <button type="button" class="btn btn-borde btn-mini"

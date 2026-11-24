@@ -83,9 +83,19 @@ class User extends Authenticatable
         return $this->hasOne(Administrador::class, 'id_admin');
     }
 
+    public function docente(): HasOne
+    {
+        return $this->hasOne(Docente::class, 'id_docente');
+    }
+
     public function scopeAdministradores(Builder $consulta): Builder
     {
         return $consulta->where('rol', self::ROL_ADMINISTRADOR);
+    }
+
+    public function scopeDocentes(Builder $consulta): Builder
+    {
+        return $consulta->where('rol', self::ROL_DOCENTE);
     }
 
     public function scopeActivos(Builder $consulta): Builder

@@ -136,4 +136,36 @@ h1 { font-size: 1.9rem; margin: 0 0 1.25rem; }
 .tabla-ancha .sin-salto { white-space: nowrap; }
 .tabla-ancha .acciones { flex-wrap: nowrap; }
 .formulario-tarjeta .fila.fila-desigual { grid-template-columns: 4fr 5fr; }
+
+/* ---------- Docentes: estudios dinámicos, disponibilidad semanal y fichas ---------- */
+.formulario-tarjeta.tarjeta-media { max-width: 720px; }
+.bloque-punteado { padding: 1rem; margin-bottom: 1rem; border: 1px dashed #d5dae2; border-radius: 8px; }
+.bloque-encabezado { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: .7rem; }
+.bloque-encabezado strong, .bloque-fila strong { display: block; font-size: .9rem; }
+.bloque-encabezado .ayuda, .bloque-fila .ayuda { margin: .2rem 0 0; }
+.bloque-fila { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.estudio-fila { display: grid; grid-template-columns: 1fr 1.6fr; gap: 0 .75rem; margin-bottom: .4rem; }
+.estudio-fila .quitar { grid-column: 1 / -1; justify-self: start; margin-bottom: .4rem; }
+.btn-mini.quitar { color: #9b1c14; border-color: #e8b4b0; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-gris { background: #eef0f4; color: #5b6573; border-color: #e1e5ec; cursor: not-allowed; }
+.botones-fila { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.subtitulo { margin: -.6rem 0 1rem; color: #5b6573; font-size: .92rem; line-height: 1.5; }
+.cuadricula-disp { margin-bottom: .6rem; }
+.disp-fila { display: grid; grid-template-columns: 1fr 1.3fr 1.2fr; gap: .75rem; align-items: center; padding: .4rem 0; border-bottom: 1px solid #eef0f4; }
+.disp-fila.disp-encabezado { padding: .3rem 0; font-size: .85rem; font-weight: 600; color: #4b5563; }
+.dia-check { display: flex; align-items: center; gap: .6rem; font-weight: 600; cursor: pointer; }
+.dia-check input { width: 1.15rem; height: 1.15rem; accent-color: #1f3a5f; }
+.texto-error { margin: .4rem 0 .8rem; padding: .6rem .8rem; font-size: .88rem; color: #8f1d17; background: #fce8e6; border: 1px solid #f4c4c0; border-radius: 8px; }
+.ficha { margin: 0 0 1rem; padding: .7rem .9rem; background: #f4f6fa; border: 1px solid #e8ebf1; border-radius: 8px; }
+.ficha div { display: grid; grid-template-columns: 9.5rem 1fr; gap: .5rem; font-size: .9rem; line-height: 1.7; }
+.ficha dt { color: #5b6573; }
+.ficha dd { margin: 0; font-weight: 700; }
+@media (max-width: 560px) {
+    .estudio-fila { grid-template-columns: 1fr; }
+    .disp-fila { grid-template-columns: 1fr 1fr; }
+    .disp-fila .dia-check { grid-column: 1 / -1; }
+    .disp-fila.disp-encabezado { display: none; }
+    .ficha div { grid-template-columns: 1fr; gap: 0; }
+}
 @media (max-width: 560px) { .formulario-tarjeta .fila.fila-desigual { grid-template-columns: 1fr; } }

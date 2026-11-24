@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Materia extends Model
 {
@@ -76,7 +77,11 @@ class Materia extends Model
         return $this->belongsTo(AreaDisciplinar::class, 'id_area_disciplinar');
     }
 
-    // La relación docentes() se agrega en el módulo de docentes, cuando exista el modelo Docente
+    // Docentes que pueden impartir la materia (tabla docente_materia, cargada directamente en la base)
+    public function docentes(): BelongsToMany
+    {
+        return $this->belongsToMany(Docente::class, 'docente_materia', 'id_materia', 'id_docente');
+    }
 
     // Solo las materias que se pueden asignar a docentes y horarios (las de baja quedan fuera)
     public function scopeActivas(Builder $consulta): Builder

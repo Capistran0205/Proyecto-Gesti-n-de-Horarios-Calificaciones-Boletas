@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\DisponibilidadDocenteController;
+use App\Http\Controllers\Admin\DocenteController;
 use App\Http\Controllers\Admin\MateriaController;
 use App\Http\Controllers\Admin\PeriodoEscolarController;
 use App\Http\Controllers\Admin\SalonController;
@@ -84,6 +86,26 @@ Route::middleware('auth')->group(function () {
                 Route::put('{materia}', 'update')->whereNumber('materia')->name('update');
                 Route::patch('{materia}/baja', 'baja')->whereNumber('materia')->name('baja');
                 Route::patch('{materia}/reactivar', 'reactivar')->whereNumber('materia')->name('reactivar');
+            });
+
+            // Módulo 4: docentes (HU-03) y su disponibilidad
+            Route::prefix('docentes')->name('docentes.')->group(function () {
+                Route::controller(DocenteController::class)->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('crear', 'create')->name('create');
+                    Route::get('contrasena-temporal', 'contrasena')->name('contrasena'); // antes de {docente}
+                    Route::post('/', 'store')->name('store');
+                    Route::get('{docente}', 'show')->whereNumber('docente')->name('show');
+                    Route::get('{docente}/editar', 'edit')->whereNumber('docente')->name('edit');
+                    Route::put('{docente}', 'update')->whereNumber('docente')->name('update');
+                    Route::patch('{docente}/baja', 'baja')->whereNumber('docente')->name('baja');
+                    Route::patch('{docente}/reactivar', 'reactivar')->whereNumber('docente')->name('reactivar');
+                });
+
+                Route::controller(DisponibilidadDocenteController::class)->group(function () {
+                    Route::get('{docente}/disponibilidad', 'edit')->whereNumber('docente')->name('disponibilidad.edit');
+                    Route::put('{docente}/disponibilidad', 'update')->whereNumber('docente')->name('disponibilidad.update');
+                });
             });
         });
     });

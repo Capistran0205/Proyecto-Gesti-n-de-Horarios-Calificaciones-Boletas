@@ -16,11 +16,7 @@
             <p class="texto">Usuario <strong>{{ $usuario }}</strong></p>
         @endif
 
-        <input class="campo @if ($errors->any()) invalido @endif" type="password" name="contrasena"
-               placeholder="Nueva contraseña" autocomplete="new-password" autofocus>
-
-        <input class="campo @if ($errors->any()) invalido @endif" type="password" name="contrasena_confirmation"
-               placeholder="Confirmar nueva contraseña" autocomplete="new-password">
+        @include('auth._campos-nueva-contrasena')
 
         <button type="submit" class="boton boton-principal">Guardar contraseña</button>
     </form>

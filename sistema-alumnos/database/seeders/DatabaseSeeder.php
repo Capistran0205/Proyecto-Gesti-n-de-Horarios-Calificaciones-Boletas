@@ -8,33 +8,40 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    // Roles: 0 SuperUsuario, 1 Administrador, 2 Docente, 3 Alumno
+    // Usuarios de prueba, uno por rol. Contraseña de todos: Prueba12345
     public function run(): void
     {
         DB::transaction(function () {
-            $super = $this->crearUsuario('superprueba', 'Super', 0);
-            DB::table('superusuario')->insertOrIgnore([
-                'id_superusuario' => $super->id,
+            $super = $this->crearUsuario('superprueba', 'Super', User::ROL_SUPERUSUARIO);
+            DB::table('super_usuario')->insertOrIgnore([
+                'id_super_usuario' => $super->id,
             ]);
 
-            $admin = $this->crearUsuario('adminprueba', 'Admin', 1);
+            $admin = $this->crearUsuario('adminprueba', 'Admin', User::ROL_ADMINISTRADOR);
             DB::table('administrador')->insertOrIgnore([
                 'id_admin' => $admin->id,
-            ]);
-
-            $docente = $this->crearUsuario('docente1001', 'Docente', 2);
-            DB::table('docente')->insertOrIgnore([
-                'id_docente' => $docente->id,
                 'curp' => 'XEXX010101HVZXXX09',
                 'rfc' => 'XEXX010101AB1',
-                'modalidad' => 1,
             ]);
 
-            $alumno = $this->crearUsuario('alumno20260001', 'Alumno', 3);
+            // El docente necesita un área disciplinar (NOT NULL en el esquema)
+            DB::table('area_disciplinar')->insertOrIgnore(['descripcion' => 'Pensamiento Matemático']);
+            $idArea = DB::table('area_disciplinar')->where('descripcion', 'Pensamiento Matemático')->value('id');
+
+            $docente = $this->crearUsuario('docente1001', 'Docente', User::ROL_DOCENTE);
+            DB::table('docente')->insertOrIgnore([
+                'id_docente' => $docente->id,
+                'id_area_disciplinar' => $idArea,
+                'curp' => 'XEXX010102HVZXXX09',
+                'rfc' => 'XEXX010102AB1',
+                'horas_plaza' => 20,
+            ]);
+
+            $alumno = $this->crearUsuario('alumno20260001', 'Alumno', User::ROL_ALUMNO);
             DB::table('alumno')->insertOrIgnore([
                 'id_alumno' => $alumno->id,
-                'curp' => 'XEXX010102HVZXXX09',
-                'modalidad' => 1,
+                'curp' => 'XEXX010103HVZXXX09',
+                'anio_ingreso' => 2026,
                 'semestre' => 1,
             ]);
         });
@@ -48,8 +55,9 @@ class DatabaseSeeder extends Seeder
                 'nombre' => $nombre,
                 'apellido_pat' => 'Prueba',
                 'rol' => $rol,
-                'correo' => $usuario . '@example.com',
+                'correo_electronico' => $usuario . '@example.com',
                 'contrasena' => 'Prueba12345',
+                'cambio_contrasena_ini' => false, // cuentas de prueba: entran directo
             ]
         );
     }

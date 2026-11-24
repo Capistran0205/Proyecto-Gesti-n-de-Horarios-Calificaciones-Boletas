@@ -39,7 +39,7 @@ class AuthController extends Controller
         }
 
         // RN-08: se entra con usuario o con correo
-        $campo = filter_var($identificador, FILTER_VALIDATE_EMAIL) ? 'correo' : 'usuario';
+        $campo = filter_var($identificador, FILTER_VALIDATE_EMAIL) ? 'correo_electronico' : 'usuario';
 
         // RN-13: solo usuarios activos
         $credenciales = [

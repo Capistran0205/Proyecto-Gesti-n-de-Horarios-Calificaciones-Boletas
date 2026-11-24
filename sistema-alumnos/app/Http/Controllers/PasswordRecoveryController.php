@@ -39,12 +39,12 @@ class PasswordRecoveryController extends Controller
         $usuario = User::where('estado', 1)
             ->where(fn ($consulta) => $consulta
                 ->where('usuario', $identificador)
-                ->orWhere('correo', $identificador))
+                ->orWhere('correo_electronico', $identificador))
             ->first();
 
         if ($usuario) {
             try {
-                Password::sendResetLink(['correo' => $usuario->correo]);
+                Password::sendResetLink(['correo_electronico' => $usuario->correo_electronico]);
             } catch (\Throwable $error) {
                 report($error); // si falla el correo, no se revela nada al usuario
             }
@@ -96,9 +96,10 @@ class PasswordRecoveryController extends Controller
         }
 
         $resultado = Password::reset(
-            ['correo' => $usuario->correo, 'password' => $datos['contrasena'], 'token' => $datos['token']],
+            ['correo_electronico' => $usuario->correo_electronico, 'password' => $datos['contrasena'], 'token' => $datos['token']],
             function (User $usuario, string $contrasena) {
                 $usuario->contrasena = $contrasena; // el modelo la guarda hasheada
+                $usuario->cambio_contrasena_ini = false; // ya eligió su propia contraseña
                 $usuario->save();
 
                 // Cierra las sesiones abiertas con la contraseña anterior

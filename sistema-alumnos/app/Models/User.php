@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -9,7 +11,23 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    public const ROLES = [0 => 'SuperUsuario', 1 => 'Administrador', 2 => 'Docente', 3 => 'Alumno'];
+    public const ROL_SUPERUSUARIO = 0;
+    public const ROL_ADMINISTRADOR = 1;
+    public const ROL_DOCENTE = 2;
+    public const ROL_ALUMNO = 3;
+
+    // Nombre y apellidos: solo letras (con acentos) separadas por un espacio
+    public const REGEX_NOMBRE_PERSONA = '/^[\p{L}\p{M}]+(?: [\p{L}\p{M}]+)*$/u';
+
+    public const ESTADO_BAJA = 0;
+    public const ESTADO_ACTIVO = 1;
+
+    public const ROLES = [
+        self::ROL_SUPERUSUARIO => 'SuperUsuario',
+        self::ROL_ADMINISTRADOR => 'Administrador',
+        self::ROL_DOCENTE => 'Docente',
+        self::ROL_ALUMNO => 'Alumno',
+    ];
 
     private const RUTAS_PANEL = [
         0 => 'panel.superusuario',
@@ -25,7 +43,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'nombre', 'apellido_pat', 'apellido_mat', 'rol',
-        'usuario', 'correo', 'contrasena', 'estado',
+        'usuario', 'correo_electronico', 'contrasena', 'estado', 'cambio_contrasena_ini',
     ];
 
     protected $hidden = ['contrasena'];
@@ -35,6 +53,7 @@ class User extends Authenticatable
         return [
             'contrasena' => 'hashed',
             'estado' => 'integer',
+            'cambio_contrasena_ini' => 'boolean',
         ];
     }
 
@@ -53,6 +72,41 @@ class User extends Authenticatable
         return trim("{$this->nombre} {$this->apellido_pat} {$this->apellido_mat}");
     }
 
+    // Permite usar $usuario->nombre_completo
+    public function getNombreCompletoAttribute(): string
+    {
+        return $this->nombreCompleto();
+    }
+
+    public function administrador(): HasOne
+    {
+        return $this->hasOne(Administrador::class, 'id_admin');
+    }
+
+    public function scopeAdministradores(Builder $consulta): Builder
+    {
+        return $consulta->where('rol', self::ROL_ADMINISTRADOR);
+    }
+
+    public function scopeActivos(Builder $consulta): Builder
+    {
+        return $consulta->where('estado', self::ESTADO_ACTIVO);
+    }
+
+    // Sin caracteres ambiguos (0 O o 1 l I). Se guarda hasheada por el cast 'hashed'.
+    public static function generarContrasenaTemporal(int $longitud = 10): string
+    {
+        $caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789';
+        $maximo = strlen($caracteres) - 1;
+        $contrasena = '';
+
+        for ($i = 0; $i < max($longitud, 8); $i++) {
+            $contrasena .= $caracteres[random_int(0, $maximo)];
+        }
+
+        return $contrasena;
+    }
+
     public function getAuthPassword()
     {
         return $this->contrasena;
@@ -65,12 +119,12 @@ class User extends Authenticatable
 
     public function getEmailForPasswordReset()
     {
-        return $this->correo;
+        return $this->correo_electronico;
     }
 
     public function routeNotificationForMail()
     {
-        return $this->correo;
+        return $this->correo_electronico;
     }
 
     public function getRememberTokenName()

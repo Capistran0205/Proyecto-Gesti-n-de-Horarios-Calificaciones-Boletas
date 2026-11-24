@@ -12,9 +12,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias(['rol' => \App\Http\Middleware\RolMiddleware::class]);
+        $middleware->alias([
+            'rol' => \App\Http\Middleware\RolMiddleware::class,
+            'cambio.contrasena' => \App\Http\Middleware\ForzarCambioContrasena::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // La contraseña temporal no se guarda en la sesión al reenviar un formulario con errores
+        $exceptions->dontFlash(['contrasena', 'contrasena_confirmation']);
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );

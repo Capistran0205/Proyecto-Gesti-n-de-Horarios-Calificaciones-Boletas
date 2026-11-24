@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\MateriaController;
+use App\Http\Controllers\Admin\PeriodoEscolarController;
+use App\Http\Controllers\Admin\SalonController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CambioContrasenaController;
 use App\Http\Controllers\PasswordRecoveryController;
@@ -52,5 +55,36 @@ Route::middleware('auth')->group(function () {
                 Route::patch('{usuario}/baja', 'baja')->whereNumber('usuario')->name('baja');
                 Route::patch('{usuario}/reactivar', 'reactivar')->whereNumber('usuario')->name('reactivar');
             });
+
+        // Módulo 2: aulas y periodos escolares (solo Administrador)
+        Route::middleware('rol:1')->prefix('admin')->name('admin.')->group(function () {
+            Route::prefix('aulas')->name('aulas.')->controller(SalonController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('crear', 'create')->name('create'); // antes de {salon}
+                Route::post('/', 'store')->name('store');
+                Route::get('{salon}/editar', 'edit')->whereNumber('salon')->name('edit');
+                Route::put('{salon}', 'update')->whereNumber('salon')->name('update');
+            });
+
+            Route::prefix('periodos')->name('periodos.')->controller(PeriodoEscolarController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('crear', 'create')->name('create'); // antes de {periodo}
+                Route::post('/', 'store')->name('store');
+                Route::get('{periodo}/editar', 'edit')->whereNumber('periodo')->name('edit');
+                Route::put('{periodo}', 'update')->whereNumber('periodo')->name('update');
+            });
+
+            // Módulo 3: materias (HU-05)
+            Route::prefix('materias')->name('materias.')->controller(MateriaController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('crear', 'create')->name('create'); // antes de {materia}
+                Route::post('/', 'store')->name('store');
+                Route::get('{materia}', 'show')->whereNumber('materia')->name('show');
+                Route::get('{materia}/editar', 'edit')->whereNumber('materia')->name('edit');
+                Route::put('{materia}', 'update')->whereNumber('materia')->name('update');
+                Route::patch('{materia}/baja', 'baja')->whereNumber('materia')->name('baja');
+                Route::patch('{materia}/reactivar', 'reactivar')->whereNumber('materia')->name('reactivar');
+            });
+        });
     });
 });

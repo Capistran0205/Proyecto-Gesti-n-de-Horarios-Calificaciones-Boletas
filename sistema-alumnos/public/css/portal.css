@@ -125,3 +125,15 @@ h1 { font-size: 1.9rem; margin: 0 0 1.25rem; }
 .modal-acciones { display: flex; justify-content: flex-end; gap: .7rem; margin-top: 1rem; }
 .contrasena-entregada { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .7rem .9rem; margin-bottom: .9rem; background: #f4f6fa; border: 1px solid #d5dae2; border-radius: 8px; }
 .contrasena-entregada code { font-size: 1.2rem; font-weight: 700; letter-spacing: .05em; }
+
+/* ---------- Listados con varios filtros y paginación numerada ---------- */
+.filtros .grupo.medio { flex: 0 0 140px; }
+.filtros .grupo.medio-ancho { flex: 0 0 165px; }
+@media (max-width: 560px) { .filtros .grupo.medio, .filtros .grupo.medio-ancho { flex-basis: 100%; } }
+.paginacion .btn.actual { background: #1f3a5f; color: #fff; border-color: #1f3a5f; pointer-events: none; }
+.campo-mayusculas:not(:placeholder-shown) { text-transform: uppercase; } /* el placeholder conserva su formato */
+.tabla-ancha { min-width: 1060px; }
+.tabla-ancha .sin-salto { white-space: nowrap; }
+.tabla-ancha .acciones { flex-wrap: nowrap; }
+.formulario-tarjeta .fila.fila-desigual { grid-template-columns: 4fr 5fr; }
+@media (max-width: 560px) { .formulario-tarjeta .fila.fila-desigual { grid-template-columns: 1fr; } }

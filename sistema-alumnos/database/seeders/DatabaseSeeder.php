@@ -11,6 +11,12 @@ class DatabaseSeeder extends Seeder
     // Usuarios de prueba, uno por rol. Contraseña de todos: Prueba12345
     public function run(): void
     {
+        // Catálogos primero: el docente de prueba necesita un área disciplinar
+        $this->call([
+            EspecialidadSeeder::class,
+            AreaDisciplinarSeeder::class,
+        ]);
+
         DB::transaction(function () {
             $super = $this->crearUsuario('superprueba', 'Super', User::ROL_SUPERUSUARIO);
             DB::table('super_usuario')->insertOrIgnore([
@@ -25,7 +31,6 @@ class DatabaseSeeder extends Seeder
             ]);
 
             // El docente necesita un área disciplinar (NOT NULL en el esquema)
-            DB::table('area_disciplinar')->insertOrIgnore(['descripcion' => 'Pensamiento Matemático']);
             $idArea = DB::table('area_disciplinar')->where('descripcion', 'Pensamiento Matemático')->value('id');
 
             $docente = $this->crearUsuario('docente1001', 'Docente', User::ROL_DOCENTE);

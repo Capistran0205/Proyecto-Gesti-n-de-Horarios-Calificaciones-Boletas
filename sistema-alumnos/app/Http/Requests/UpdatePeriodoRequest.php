@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Http\Requests;
+
+use App\Http\Requests\Concerns\ValidaPeriodoEscolar;
+use App\Models\PeriodoEscolar;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class UpdatePeriodoRequest extends FormRequest
+{
+    use ValidaPeriodoEscolar;
+
+    protected function prepareForValidation(): void
+    {
+        $this->normalizarNombrePeriodo();
+    }
+
+    public function rules(): array
+    {
+        // {periodo} de la ruta ya viene resuelto como modelo: el periodo no choca consigo mismo
+        $idPeriodo = $this->route('periodo')->id;
+
+        return [
+            'nombre' => ['required', 'string', 'max:40', 'regex:' . PeriodoEscolar::regexNombre(), Rule::unique('periodo_escolar', 'nombre')->ignore($idPeriodo)],
+            'fecha_inicio' => ['required', 'date_format:Y-m-d'],
+            'fecha_fin' => ['required', 'date_format:Y-m-d', 'after:fecha_inicio'],
+        ];
+    }
+
+    public function withValidator(Validator $validador): void
+    {
+        $this->validarTraslape($validador, $this->route('periodo')->id);
+    }
+
+    public function messages(): array
+    {
+        return $this->mensajesPeriodo();
+    }
+}

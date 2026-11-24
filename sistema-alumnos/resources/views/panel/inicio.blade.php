@@ -12,7 +12,7 @@
         1 => [
             ['Gestión de Docentes', 'Registrar, consultar, modificar y dar de baja docentes.', null],
             ['Gestión de Alumnos', 'Registrar, consultar, modificar y dar de baja alumnos.', null],
-            ['Gestión de Materias', 'Registrar, consultar, modificar y dar de baja materias.', null],
+            ['Gestión de Materias', 'Registrar, consultar, modificar y dar de baja materias.', route('admin.materias.index')],
         ],
         default => [],
     };

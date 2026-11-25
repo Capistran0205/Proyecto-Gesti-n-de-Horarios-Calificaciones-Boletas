@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AlumnoController;
 use App\Http\Controllers\Admin\DisponibilidadDocenteController;
 use App\Http\Controllers\Admin\DocenteController;
 use App\Http\Controllers\Admin\MateriaController;
@@ -86,6 +87,19 @@ Route::middleware('auth')->group(function () {
                 Route::put('{materia}', 'update')->whereNumber('materia')->name('update');
                 Route::patch('{materia}/baja', 'baja')->whereNumber('materia')->name('baja');
                 Route::patch('{materia}/reactivar', 'reactivar')->whereNumber('materia')->name('reactivar');
+            });
+
+            // Módulo 5: alumnos (HU-04)
+            Route::prefix('alumnos')->name('alumnos.')->controller(AlumnoController::class)->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('crear', 'create')->name('create');
+                Route::get('contrasena-temporal', 'contrasena')->name('contrasena'); // antes de {alumno}
+                Route::post('/', 'store')->name('store');
+                Route::get('{alumno}', 'show')->whereNumber('alumno')->name('show');
+                Route::get('{alumno}/editar', 'edit')->whereNumber('alumno')->name('edit');
+                Route::put('{alumno}', 'update')->whereNumber('alumno')->name('update');
+                Route::patch('{alumno}/baja', 'baja')->whereNumber('alumno')->name('baja');
+                Route::patch('{alumno}/reactivar', 'reactivar')->whereNumber('alumno')->name('reactivar');
             });
 
             // Módulo 4: docentes (HU-03) y su disponibilidad

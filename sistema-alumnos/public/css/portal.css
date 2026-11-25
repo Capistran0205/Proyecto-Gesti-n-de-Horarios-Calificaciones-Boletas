@@ -135,6 +135,7 @@ h1 { font-size: 1.9rem; margin: 0 0 1.25rem; }
 .tabla-ancha { min-width: 1060px; }
 .tabla-ancha .sin-salto { white-space: nowrap; }
 .tabla-ancha .acciones { flex-wrap: nowrap; }
+.tabla-ancha .acciones .btn { white-space: nowrap; flex-shrink: 0; } /* el texto del botón no se parte ni se comprime */
 .formulario-tarjeta .fila.fila-desigual { grid-template-columns: 4fr 5fr; }
 
 /* ---------- Docentes: estudios dinámicos, disponibilidad semanal y fichas ---------- */
@@ -169,3 +170,5 @@ h1 { font-size: 1.9rem; margin: 0 0 1.25rem; }
     .ficha div { grid-template-columns: 1fr; gap: 0; }
 }
 @media (max-width: 560px) { .formulario-tarjeta .fila.fila-desigual { grid-template-columns: 1fr; } }
+/* ---------- Alumnos ---------- */
+.tenue { color: #8a93a1; }

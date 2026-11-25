@@ -88,6 +88,11 @@ class User extends Authenticatable
         return $this->hasOne(Docente::class, 'id_docente');
     }
 
+    public function alumno(): HasOne
+    {
+        return $this->hasOne(Alumno::class, 'id_alumno');
+    }
+
     public function scopeAdministradores(Builder $consulta): Builder
     {
         return $consulta->where('rol', self::ROL_ADMINISTRADOR);
@@ -96,6 +101,11 @@ class User extends Authenticatable
     public function scopeDocentes(Builder $consulta): Builder
     {
         return $consulta->where('rol', self::ROL_DOCENTE);
+    }
+
+    public function scopeAlumnos(Builder $consulta): Builder
+    {
+        return $consulta->where('rol', self::ROL_ALUMNO);
     }
 
     public function scopeActivos(Builder $consulta): Builder

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -40,8 +41,7 @@ class Alumno extends Model
         ];
     }
 
-    // Las relaciones grupos() y calificaciones() se agregan en los módulos de grupos y calificaciones,
-    // cuando existan los modelos Grupo y CalificacionAlumno.
+    // La relación calificaciones() se agrega en el módulo de calificaciones, cuando exista CalificacionAlumno.
 
     public function usuario(): BelongsTo
     {
@@ -51,6 +51,12 @@ class Alumno extends Model
     public function especialidad(): BelongsTo
     {
         return $this->belongsTo(Especialidad::class, 'id_especialidad');
+    }
+
+    // Grupos del alumno a lo largo de los periodos (detalle_grupo)
+    public function grupos(): BelongsToMany
+    {
+        return $this->belongsToMany(Grupo::class, 'detalle_grupo', 'id_alumno', 'id_grupo');
     }
 
     // Grupos: se leen directo de las tablas grupo y detalle_grupo (el modelo Grupo llega con el módulo de grupos).

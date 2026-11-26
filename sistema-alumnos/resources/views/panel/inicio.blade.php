@@ -7,12 +7,14 @@
     $opciones = match ($usuario->rol) {
         0 => [
             ['Administradores', 'Registrar, consultar, modificar y dar de baja administradores.', route('superusuario.administradores.index')],
+            ['Capacidad de grupos', 'Consultar los grupos y ampliar o ajustar su capacidad máxima.', route('superusuario.grupos.index')],
             ['Restablecer contraseñas', 'Restablecer la contraseña de los demás usuarios del sistema.', null],
         ],
         1 => [
             ['Gestión de Docentes', 'Registrar, consultar, modificar y dar de baja docentes.', route('admin.docentes.index')],
             ['Gestión de Alumnos', 'Registrar, consultar, modificar y dar de baja alumnos.', route('admin.alumnos.index')],
             ['Gestión de Materias', 'Registrar, consultar, modificar y dar de baja materias.', route('admin.materias.index')],
+            ['Gestión de Grupos', 'Registrar y consultar grupos, y asignar alumnos a cada uno.', route('admin.grupos.index')],
         ],
         default => [],
     };

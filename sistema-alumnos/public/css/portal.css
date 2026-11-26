@@ -172,3 +172,29 @@ h1 { font-size: 1.9rem; margin: 0 0 1.25rem; }
 @media (max-width: 560px) { .formulario-tarjeta .fila.fila-desigual { grid-template-columns: 1fr; } }
 /* ---------- Alumnos ---------- */
 .tenue { color: #8a93a1; }
+
+/* ---------- Grupos ---------- */
+.migas a { color: inherit; }
+.insignia.lleno { background: #fff2d6; color: #7a4b00; }
+.titulo-seccion { margin: 0 0 .8rem; font-size: 1.2rem; }
+.ayuda-suelta { margin: 0 0 1rem; }
+.resumen-grupo { padding: 1.1rem 1.3rem; margin-bottom: 1.4rem; background: #fff; border: 1px solid #e1e5ec; border-radius: 10px; }
+.resumen-datos { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem 2.2rem; margin: 0; }
+.resumen-lista { display: flex; flex-wrap: wrap; gap: .8rem 2.2rem; margin: 0; }
+.resumen-datos dt { font-size: .8rem; font-weight: 600; color: #5b6573; }
+.resumen-datos dd { margin: .15rem 0 0; }
+.resumen-datos .empuja { margin-left: auto; }
+.barra-cupo-texto { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin: 1rem 0 .4rem; font-size: .9rem; }
+.barra-cupo-texto span { color: #5b6573; }
+.barra-cupo { height: 10px; overflow: hidden; background: #e8ebf1; border-radius: 999px; }
+.barra-cupo span { display: block; height: 100%; background: #1f3a5f; border-radius: 999px; }
+.contador-lugares { display: flex; align-items: center; gap: .7rem; padding: .7rem 1rem; background: #e8eef7; color: #1f3a5f; border-radius: 10px; }
+.contador-lugares strong { font-size: 1.8rem; line-height: 1; }
+.contador-lugares span { font-size: .85rem; line-height: 1.3; }
+.contador-lugares b { display: block; }
+.contador-lugares.agotado { background: #fff2d6; color: #7a4b00; }
+.tabla-seleccion { min-width: 720px; }
+.tabla-seleccion th:first-child, .tabla-seleccion td:first-child { width: 5rem; text-align: center; }
+.tabla-seleccion input[type="checkbox"] { width: 1.15rem; height: 1.15rem; accent-color: #1f3a5f; cursor: pointer; }
+.tabla-seleccion input[type="checkbox"]:disabled { cursor: not-allowed; }
+@media (max-width: 560px) { .resumen-datos .empuja { margin-left: 0; width: 100%; } }

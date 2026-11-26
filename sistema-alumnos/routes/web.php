@@ -3,6 +3,8 @@
 use App\Http\Controllers\Admin\AlumnoController;
 use App\Http\Controllers\Admin\DisponibilidadDocenteController;
 use App\Http\Controllers\Admin\DocenteController;
+use App\Http\Controllers\Admin\GrupoAlumnoController;
+use App\Http\Controllers\Admin\GrupoController;
 use App\Http\Controllers\Admin\MateriaController;
 use App\Http\Controllers\Admin\PeriodoEscolarController;
 use App\Http\Controllers\Admin\SalonController;
@@ -10,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CambioContrasenaController;
 use App\Http\Controllers\PasswordRecoveryController;
 use App\Http\Controllers\SuperUsuario\AdministradorController;
+use App\Http\Controllers\SuperUsuario\CapacidadGrupoController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/panel');
@@ -59,6 +62,17 @@ Route::middleware('auth')->group(function () {
                 Route::patch('{usuario}/reactivar', 'reactivar')->whereNumber('usuario')->name('reactivar');
             });
 
+        // HU-06: capacidad de los grupos (solo SuperUsuario)
+        Route::middleware('rol:0')
+            ->prefix('superusuario/grupos')
+            ->name('superusuario.grupos.')
+            ->controller(CapacidadGrupoController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('{grupo}/capacidad', 'edit')->whereNumber('grupo')->name('capacidad.edit');
+                Route::put('{grupo}/capacidad', 'update')->whereNumber('grupo')->name('capacidad.update');
+            });
+
         // Módulo 2: aulas y periodos escolares (solo Administrador)
         Route::middleware('rol:1')->prefix('admin')->name('admin.')->group(function () {
             Route::prefix('aulas')->name('aulas.')->controller(SalonController::class)->group(function () {
@@ -100,6 +114,24 @@ Route::middleware('auth')->group(function () {
                 Route::put('{alumno}', 'update')->whereNumber('alumno')->name('update');
                 Route::patch('{alumno}/baja', 'baja')->whereNumber('alumno')->name('baja');
                 Route::patch('{alumno}/reactivar', 'reactivar')->whereNumber('alumno')->name('reactivar');
+            });
+
+            // Módulo 6: grupos (HU-06) y asignación de alumnos
+            Route::prefix('grupos')->name('grupos.')->group(function () {
+                Route::controller(GrupoController::class)->group(function () {
+                    Route::get('/', 'index')->name('index');
+                    Route::get('crear', 'create')->name('create'); // antes de {grupo}
+                    Route::post('/', 'store')->name('store');
+                    Route::get('{grupo}', 'show')->whereNumber('grupo')->name('show');
+                    Route::get('{grupo}/editar', 'edit')->whereNumber('grupo')->name('edit');
+                    Route::put('{grupo}', 'update')->whereNumber('grupo')->name('update');
+                });
+
+                Route::controller(GrupoAlumnoController::class)->group(function () {
+                    Route::get('{grupo}/alumnos/asignar', 'create')->whereNumber('grupo')->name('alumnos.create');
+                    Route::post('{grupo}/alumnos', 'store')->whereNumber('grupo')->name('alumnos.store');
+                    Route::delete('{grupo}/alumnos/{alumno}', 'destroy')->whereNumber(['grupo', 'alumno'])->name('alumnos.destroy');
+                });
             });
 
             // Módulo 4: docentes (HU-03) y su disponibilidad

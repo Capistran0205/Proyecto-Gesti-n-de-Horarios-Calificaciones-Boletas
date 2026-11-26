@@ -10,6 +10,9 @@
             <p class="migas">Panel SuperUsuario › Grupos</p>
             <h1>Capacidad de grupos</h1>
         </div>
+        <div class="encabezado-acciones">
+            <x-boton-regresar />
+        </div>
     </div>
 
     <form method="GET" action="{{ route('superusuario.grupos.index') }}" class="filtros">

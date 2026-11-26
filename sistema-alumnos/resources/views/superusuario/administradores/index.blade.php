@@ -11,7 +11,10 @@
             <p class="migas">Panel SuperUsuario › Administración</p>
             <h1>Administradores</h1>
         </div>
-        <a href="{{ route('superusuario.administradores.create') }}" class="btn btn-primario">+ Nuevo administrador</a>
+        <div class="encabezado-acciones">
+            <x-boton-regresar />
+            <a href="{{ route('superusuario.administradores.create') }}" class="btn btn-primario">+ Nuevo administrador</a>
+        </div>
     </div>
 
     <form method="GET" action="{{ route('superusuario.administradores.index') }}" class="filtros">

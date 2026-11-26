@@ -10,7 +10,10 @@
             <p class="migas">Panel Administrador › Materias</p>
             <h1>Materias</h1>
         </div>
-        <a href="{{ route('admin.materias.create') }}" class="btn btn-primario">+ Nueva materia</a>
+        <div class="encabezado-acciones">
+            <x-boton-regresar />
+            <a href="{{ route('admin.materias.create') }}" class="btn btn-primario">+ Nueva materia</a>
+        </div>
     </div>
 
     <form method="GET" action="{{ route('admin.materias.index') }}" class="filtros">

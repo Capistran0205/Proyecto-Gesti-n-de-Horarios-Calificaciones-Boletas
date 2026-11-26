@@ -52,6 +52,7 @@ h1 { font-size: 1.9rem; margin: 0 0 1.25rem; }
 .pagina-encabezado { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
 .pagina-encabezado h1 { margin: 0; }
 .pagina-encabezado .migas { margin-bottom: .4rem; font-size: .9rem; }
+.encabezado-acciones { display: flex; gap: .6rem; flex-wrap: wrap; }
 
 .btn { display: inline-block; padding: .65rem 1.3rem; font-family: inherit; font-size: .95rem; font-weight: 700; text-align: center; text-decoration: none; border: 1px solid transparent; border-radius: 8px; cursor: pointer; }
 .btn-primario { background: #1f3a5f; color: #fff; }

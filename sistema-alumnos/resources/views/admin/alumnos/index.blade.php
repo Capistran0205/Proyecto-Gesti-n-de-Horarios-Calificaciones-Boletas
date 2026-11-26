@@ -21,7 +21,10 @@
             <p class="migas">Panel Administrador › Alumnos</p>
             <h1>Alumnos</h1>
         </div>
-        <a href="{{ route('admin.alumnos.create') }}" class="btn btn-primario">+ Nuevo alumno</a>
+        <div class="encabezado-acciones">
+            <x-boton-regresar />
+            <a href="{{ route('admin.alumnos.create') }}" class="btn btn-primario">+ Nuevo alumno</a>
+        </div>
     </div>
 
     <form method="GET" action="{{ route('admin.alumnos.index') }}" class="filtros">

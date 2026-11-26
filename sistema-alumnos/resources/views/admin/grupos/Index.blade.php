@@ -10,7 +10,10 @@
             <p class="migas">Panel Administrador › Grupos</p>
             <h1>Grupos</h1>
         </div>
-        <a href="{{ route('admin.grupos.create', ['periodo' => $idPeriodo]) }}" class="btn btn-primario">+ Nuevo grupo</a>
+        <div class="encabezado-acciones">
+            <x-boton-regresar />
+            <a href="{{ route('admin.grupos.create', ['periodo' => $idPeriodo]) }}" class="btn btn-primario">+ Nuevo grupo</a>
+        </div>
     </div>
 
     <form method="GET" action="{{ route('admin.grupos.index') }}" class="filtros">
